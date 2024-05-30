@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rundeck
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rundeck
+  template:
+    metadata:
+      labels:
+        app: rundeck
+    spec:
+      containers:
+      - name: rundeck
+        image: rundeck/rundeck:4.8.0
+        ports:
+        - containerPort: 4440
+        env:
+        - name: RUNDECK_GRAILS_URL
+          value: "http://10.96.0.1:4440"
+        - name: RUNDECK_SERVER_FORWARDED
+          value: "true"
+        - name: RUNDECK_SERVER_ADDRESS
+          value: "0.0.0.0"
+        - name: RUNDECK_DATABASE_DRIVER
+          value: "org.h2.Driver"
+        - name: RUNDECK_DATABASE_URL
+
